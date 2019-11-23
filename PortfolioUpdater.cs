@@ -25,12 +25,12 @@ namespace PortfolioUpdater
             InitializeComponent();
 
             eventLog = new EventLog();
-            if (!EventLog.SourceExists("WebAppSource"))
+            if (!EventLog.SourceExists("PortfolioUpdater"))
             {
-                EventLog.CreateEventSource("WebAppSource", "WebAppServiceLog");
+                EventLog.CreateEventSource("PortfolioUpdater", "PortfolioUpdaterLog");
             }
-            eventLog.Source = "WebAppSource";
-            eventLog.Log = "WebAppServiceLog";
+            eventLog.Source = "PortfolioUpdater";
+            eventLog.Log = "PortfolioUpdaterLog";
         }
 
         protected override void OnStart(string[] args)
@@ -39,7 +39,7 @@ namespace PortfolioUpdater
 
             // Set up a timer that triggers every 30 minutes
             Timer timer = new Timer();
-            timer.Interval = (2 * 60000);
+            timer.Interval = (60 * 60000);
             timer.Elapsed += new ElapsedEventHandler(this.OnTimer);
             timer.Start();
         }
@@ -174,9 +174,9 @@ namespace PortfolioUpdater
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@ExceptionMessage", message));
                     command.Parameters.Add(new SqlParameter("@ExceptionType", errorType));
-                    command.Parameters.Add(new SqlParameter("@ExceptionURL", "WebAppService"));
+                    command.Parameters.Add(new SqlParameter("@ExceptionURL", "PortfolioUpdater"));
                     command.Parameters.Add(new SqlParameter("@ExceptionSource", stackTrace));
-                    command.Parameters.Add(new SqlParameter("@Username", "WebAppService"));
+                    command.Parameters.Add(new SqlParameter("@Username", "PortfolioUpdater"));
 
                     command.CommandText = "sp_LogException";
                     command.Connection = connection;
