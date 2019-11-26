@@ -23,14 +23,13 @@ namespace PortfolioUpdater
         public PortfolioUpdater()
         {
             InitializeComponent();
-
             eventLog = new EventLog();
-            if (!EventLog.SourceExists("PortfolioUpdater"))
+            if (!EventLog.SourceExists("WebAppSource"))
             {
-                EventLog.CreateEventSource("PortfolioUpdater", "PortfolioUpdaterLog");
+                EventLog.CreateEventSource("WebAppSource", "WebAppServiceLog");
             }
-            eventLog.Source = "PortfolioUpdater";
-            eventLog.Log = "PortfolioUpdaterLog";
+            eventLog.Source = "WebAppSource";
+            eventLog.Log = "WebAppServiceLog";
         }
 
         protected override void OnStart(string[] args)
